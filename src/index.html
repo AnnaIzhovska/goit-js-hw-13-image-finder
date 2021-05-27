@@ -22,27 +22,19 @@
 
 <body>
 
-   <form class="search-form  js-search-form" id="search-form">
-    <input
-      type="text"
-      name="query"
-      autocomplete="off"
-      placeholder="Данные для поиска..."
-    />
+  <form class="form-inline search-form js-search-form" id="search-form">
+    <div class="form group mx-sm- mb-2">
+    <input type="text" class="form-control" name="query" autocomplete="off" placeholder="Введите ваш запрос..." />
+    </div>
   
-    <button type="submit" class="btn btn-primary mb-2">Поиск</button>
-  </form> 
-
-
-  <ul class="articles js-articles-container"></ul>
-
-  <button type="button" class="btn btn-primary button is-hidden" data-action="load-more">
-    <!-- <span
-      class="spinner-border spinner-border-sm spinner is-hidden"
-      role="status"
-      aria-hidden="true"
-    ></span> -->
-
-    <span class="label">Показать ещё</span>
+    <button type="submit" class="search-form-button">Поиск</button>
+  </form>
+  <ul class="articles js-articles-container gallery">
+    <!-- Список <li> с карточками изображений -->
+  </ul>
+    <button type="button" class="btn btn-primary button" data-action="load-more">
+      <span class="spinner-border spinner-border-sm spinner is-hidden" role="status" aria-hidden="true"></span>
+      <span class="label">Показать ещё</span>
+    </button>
 </body>
 </html>

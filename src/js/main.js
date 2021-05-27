@@ -1,57 +1,63 @@
-import ImagesApiService from './apiService';
-import getRefs from './get-refs';
-import cardTpl from '../templates/card.hbs';
-// import LoadMoreBtn from './load-more-btn';
+import NewsApiService from './apiService';
+// import getRefs from './get-refs';
+import temtlateImage from '../templates/card.hbs';
+import LoadMoreBtn from './load-more-btn';
 
-const refs = getRefs();
+// const options = {
+//     headers: {
+//         Authorization: '21751714-0d98bde39df4a5d3fa6697446',
+//     },
+// }
+const refs = {
+    searchForm: document.querySelector('.js-search-form'),
+    articlesContainer: document.querySelector('.js-articles-container'),
+    // loadMoreBtn: document.querySelector('[data-action="load-more"]')
+};
+const loadMoreBtn = new LoadMoreBtn({
+    selector: '[data-action="load-more"]',
+    hidden: true,
+});
+const newApiService = new NewsApiService();
+console.log(loadMoreBtn);
 
-// const loadMoreBtn = new LoadMoreBtn({ selector: '[data-action="load-more"]', hidden: true });
-const apiService = new ImagesApiService();
+
+console.log(newApiService);
 
 refs.searchForm.addEventListener('submit', onSearch);
+loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
 
-function onSearch (e) {
-e.preventDefault();
-apiService.query = e.currentTarget.elements.query.value;
-if (apiService.query === ''){
-  return alert('Введите ваш запрос!')  
-  }
-// loadMoreBtn.show();
-apiService.resetPage();
-clearArticlesContainer();
-feathHits();
-};
 
-// loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
+ 
+function onSearch(e){
+    e.preventDefault();
 
-function appendArticlesMarkup(articles) {
-    refs.galleryContainer.insertAdjacentHTML('beforeend', cardTpl(articles));
+    clearArticlesContainer();
+
+    newApiService.query = e.currentTarget.elements.query.value;
+    if (newApiService.query === '') {
+        return alert('Please try again');
     }
-
-function clearArticlesContainer() {
-    refs.galleryContainer.innerHTML = '';
+    loadMoreBtn.show();
+    newApiService.resetPage();
+    clearArticlesContainer();
+    fetchArticles();
+   
 }
 
-function feathHits() {
-    // loadMoreBtn.disable();
-  
-    return apiService.fetchArticles().then(articles => {
-    setTimeout(() => {
-        appendArticlesMarkup(articles);
-        // loadMoreBtn.enable();
-      }, 300);
-  });
-}
 
-// function onLoadMore() {
-//   feathHits()
-//   .then(
-//     setTimeout(() => {
-//       window.scrollBy({
-//         top: document.documentElement.clientHeight - 80,
-//         behavior: 'smooth',
-//       });
-//     }, 2000),
-//   )
-//   .catch(err => console.log(err));
-// }
+function fetchArticles() {
+        loadMoreBtn.disable();
+     newApiService.fetchArticles().then(hits => {
+        
+        appendHitsMakup(hits);
+        loadMoreBtn.enable();
+    });
+}
+function appendHitsMakup(hits) {
+    refs.articlesContainer.insertAdjacentHTML('beforeend', temtlateImage(hits));
+     
+ }
+ 
+ function clearArticlesContainer() {
+     refs.articlesContainer.innerHTML = '';
+ }
