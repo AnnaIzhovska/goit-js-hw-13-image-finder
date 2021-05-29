@@ -158,3 +158,8 @@ img {
 .form-control{
   margin-bottom: -7px;
 }
+
+
+.label{
+  margin-left: 5px;
+}
