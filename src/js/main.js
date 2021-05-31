@@ -61,13 +61,13 @@ function feathHits() {
     feathHits()
       .then(
         setTimeout(() => {
-            window.scrollTo({
-                top: refs.articlesContainer.clientHeight + 100,
-                behavior: 'smooth',
-              });
-            }, 500)
+          window.scrollTo({
+            top: refs.articlesContainer.clientHeight + 100,
+            behavior: 'smooth',
+          });
+        }, 1500),
       )
-      .catch(err => console.log(err));
+      .catch(error => console.log(error));
   }
 
 function appendHitsMakup(hits) {
